@@ -22,7 +22,7 @@ public class TestController {
 
     @PostMapping("/booking")
     public ResponseEntity<String> mockBookingCreated() {
-        // 1. Tạo một sự kiện giả lập (giống như Order Service vừa tạo đơn xong)
+        // 1. Tạo một sự kiện giả lập (giống như Booking Service vừa tạo đơn xong)
         BookingCreatedEvent mockEvent = new BookingCreatedEvent();
         mockEvent.setBookingId(Math.abs(random.nextLong() % 10000)); // Random ID
         mockEvent.setUserId(1L);
@@ -30,8 +30,8 @@ public class TestController {
 
         // 2. Bắn sự kiện vào RabbitMQ (vào đúng Exchange và Routing Key)
         rabbitTemplate.convertAndSend(
-                RabbitMQConfig.EXCHANGE_NAME,
-                RabbitMQConfig.ROUTING_KEY_BOOKING_CREATED,
+                RabbitMQConfig.EXCHANGE, // Cập nhật hằng số EXCHANGE từ config mới
+                RabbitMQConfig.ROUTING_KEY_BOOKING, // Cập nhật hằng số ROUTING_KEY_BOOKING từ config mới
                 mockEvent
         );
 

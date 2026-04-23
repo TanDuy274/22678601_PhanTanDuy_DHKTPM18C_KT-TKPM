@@ -1,0 +1,42 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: tour-service
+
+  # C?u hình k?t n?i MariaDB
+  datasource:
+    url: jdbc:mariadb://localhost:3306/tour_db # Thay 'localhost' và 'tour_db' b?ng thông tin DB th?c t? c?a b?n
+    username: root
+    password: sapassword # Thay b?ng m?t kh?u DB c?a b?n
+    driver-class-name: org.mariadb.jdbc.Driver
+
+  # C?u hình JPA / Hibernate
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDBDialect
+
+# C?u hình Eureka Client (gi? nguyên c?u trúc máy ch? c?a b?n)
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    jersey:
+      enabled: false
+    service-url:
+      defaultZone: http://172.16.33.175:8761/eureka/
+
+# C?u hình Actuator / Management
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always

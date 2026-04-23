@@ -1,10 +1,10 @@
-package edu.iuh.fit.product_service;
+package edu.iuh.fit.tour_service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ProductServiceApplicationTests {
+class TourServiceApplicationTests {
 
     @Test
     void contextLoads() {

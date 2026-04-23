@@ -38,11 +38,11 @@ public class PaymentAndNotificationService {
         try {
             // THÊM MỚI: Check NULL để chặn lỗi "Poison Pill" (Dữ liệu rỗng làm crash app)
             if (event == null || event.getBookingId() == null || event.getTotalAmount() == null) {
-                log.error("❌ Dữ liệu nhận được từ RabbitMQ không hợp lệ (null). Hủy bỏ xử lý tin nhắn này!");
+                log.error("Dữ liệu nhận được từ RabbitMQ không hợp lệ (null). Hủy bỏ xử lý tin nhắn này!");
                 return; // Kết thúc sớm, không quăng Exception để RabbitMQ xóa tin nhắn rác này đi
             }
 
-            log.info("🛒 Bắt đầu xử lý thanh toán cho Booking ID: {}", event.getBookingId());
+            log.info("Bắt đầu xử lý thanh toán cho Booking ID: {}", event.getBookingId());
 
             // Khởi tạo thông tin thanh toán
             Payment payment = new Payment();
@@ -61,7 +61,7 @@ public class PaymentAndNotificationService {
 
         } catch (Exception e) {
             // THÊM MỚI: Bọc Try-Catch để nếu có lỗi (ví dụ rớt DB), RabbitMQ sẽ không bị lặp vô tận
-            log.error("💥 Lỗi nghiêm trọng khi xử lý payment cho Booking ID: {}. Chi tiết: {}",
+            log.error("Lỗi nghiêm trọng khi xử lý payment cho Booking ID: {}. Chi tiết: {}",
                     (event != null ? event.getBookingId() : "unknown"), e.getMessage());
         }
     }
@@ -77,7 +77,7 @@ public class PaymentAndNotificationService {
                 RabbitMQConfig.ROUTING_KEY_PAYMENT_COMPLETED,
                 successEvent
         );
-        log.info("✅ Thanh toán thành công. Đã publish event PAYMENT_COMPLETED cho Booking ID: {}", bookingId);
+        log.info("Thanh toán thành công. Đã publish event PAYMENT_COMPLETED cho Booking ID: {}", bookingId);
     }
 
     private void handleFailedPayment(Payment payment, Long bookingId) {
@@ -91,7 +91,7 @@ public class PaymentAndNotificationService {
                 RabbitMQConfig.ROUTING_KEY_BOOKING_FAILED,
                 failedEvent
         );
-        log.warn("❌ Thanh toán thất bại. Đã publish event BOOKING_FAILED cho Booking ID: {}", bookingId);
+        log.warn("Thanh toán thất bại. Đã publish event BOOKING_FAILED cho Booking ID: {}", bookingId);
     }
 
     // =========================================================================
@@ -104,7 +104,7 @@ public class PaymentAndNotificationService {
     @RabbitListener(queues = RabbitMQConfig.QUEUE_PAYMENT_COMPLETED)
     public void sendSuccessNotification(PaymentEvent event) {
         log.info("=========================================");
-        log.info("🔔 THÔNG BÁO: Booking #{} thành công!", event.getBookingId());
+        log.info("THÔNG BÁO: Booking #{} thành công!", event.getBookingId());
         log.info("=========================================");
     }
 
@@ -114,7 +114,7 @@ public class PaymentAndNotificationService {
     @RabbitListener(queues = RabbitMQConfig.QUEUE_BOOKING_FAILED)
     public void sendFailureNotification(PaymentEvent event) {
         log.error("=========================================");
-        log.error("🔕 THÔNG BÁO: Booking #{} thất bại. Chi tiết: {}", event.getBookingId(), event.getMessage());
+        log.error("THÔNG BÁO: Booking #{} thất bại. Chi tiết: {}", event.getBookingId(), event.getMessage());
         log.error("=========================================");
     }
 
@@ -129,7 +129,7 @@ public class PaymentAndNotificationService {
             }
 
             log.info("=========================================");
-            log.info("🎉 THÔNG BÁO: Chào mừng User '{}' (ID: {}) đã gia nhập hệ thống Movie Ticket!",
+            log.info("THÔNG BÁO: Chào mừng User '{}' (ID: {}) đã gia nhập hệ thống Movie Ticket!",
                     (event.getUserName() != null ? event.getUserName() : "Khách"),
                     event.getId());
             log.info("=========================================");

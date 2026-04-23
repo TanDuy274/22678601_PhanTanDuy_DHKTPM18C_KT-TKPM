@@ -1,0 +1,14 @@
+server:
+  port: 8081
+
+spring:
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      timeout: 60000
+
+# C?u hình logging ?? d? debug trong quá trình demo
+logging:
+  level:
+    org.springframework.data.redis: DEBUG

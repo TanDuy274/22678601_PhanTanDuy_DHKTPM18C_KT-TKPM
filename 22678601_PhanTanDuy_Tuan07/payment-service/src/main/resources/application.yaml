@@ -27,6 +27,18 @@ spring:
 eureka:
   instance:
     prefer-ip-address: true
+    health-check-url-path: /actuator/health
+      # Cho phép Eureka bỏ qua việc kiểm tra sức khỏe khắt khe lúc mới bắt đầu
+    status-page-url-path: /actuator/info
   client:
     service-url:
       defaultZone: http://172.20.35.147:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*" # Phải có dòng này thì Dashboard mới đọc được dữ liệu
+  endpoint:
+    health:
+      show-details: always

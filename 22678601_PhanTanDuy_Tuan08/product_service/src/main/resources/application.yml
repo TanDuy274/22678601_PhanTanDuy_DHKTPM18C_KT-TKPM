@@ -2,13 +2,32 @@ server:
   port: 8081
 
 spring:
+  application:
+    name: product-service
   data:
     redis:
       host: localhost
       port: 6379
       timeout: 60000
 
-# C?u hình logging ?? d? debug trong quá trình demo
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    jersey:
+      enabled: false
+    service-url:
+      defaultZone: http://172.16.33.175:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
 logging:
   level:
     org.springframework.data.redis: DEBUG
